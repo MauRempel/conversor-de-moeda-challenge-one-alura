@@ -1,0 +1,42 @@
+public class ConversaoEscolhida {
+
+    String moedaOrigem;
+    String moedaDestino;
+    String casoDefault = "";
+
+    public ConversaoEscolhida(int opcao) {
+
+        switch (opcao) {
+            case 1:
+                moedaOrigem = "USD";
+                moedaDestino = "BRL";
+                break;
+            case 2:
+                moedaOrigem = "BRL";
+                moedaDestino = "USD";
+                break;
+            case 3:
+                moedaOrigem = "USD";
+                moedaDestino = "EUR";
+                break;
+            case 4:
+                moedaOrigem = "EUR";
+                moedaDestino = "USD";
+                break;
+            case 5:
+                moedaOrigem = "BRL";
+                moedaDestino = "EUR";
+                break;
+            case 6:
+                moedaOrigem = "EUR";
+                moedaDestino = "BRL";
+                break;
+            default:
+                casoDefault = "Opção inválida!";
+                System.out.println(casoDefault);
+
+
+        }
+
+    }
+}

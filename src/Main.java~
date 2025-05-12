@@ -1,0 +1,77 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        ExchangeAPIRequest exchangeAPIRequest = new ExchangeAPIRequest();
+        int opcao;
+        String sair = "s";
+
+
+        System.out.println("Bem vindo/a ao conversor de Moedas!");
+
+        while(sair.equalsIgnoreCase("s")){
+
+            System.out.println("\n*****************************************************************************");
+            System.out.println("""
+                    Qual conversão deseja realizar?
+                    1 - Dólar (USD) --> Real (BRL)
+                    2 - Real (BRL) --> Dólar (USD)
+                    3 - Dólar (USD) --> Euro (EUR)
+                    4 - Euro (EUR) --> Dólar (USD)
+                    5 - Real (BRL) --> Euro (EUR)
+                    6 - Euro (EUR) --> Real (BRL)
+                    0 - Sair
+                    Digite uma opção válida!
+                    """);
+            try {
+                opcao = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Opção inválida!");
+                scanner.next();
+                opcao = 0;
+            }
+
+            if (opcao == 0){
+                System.out.println("Saindo...");
+                break;
+            }
+
+            ConversaoEscolhida conversaoEscolhida = new ConversaoEscolhida(opcao);
+
+            if(conversaoEscolhida.casoDefault.equals("Opção inválida!")){
+                break;
+            }
+
+
+            System.out.println("Qual quantia deseja converter?");
+            double quantidade = scanner.nextDouble();
+
+
+
+            try {
+                ExchangeRecord exchangeRecord = exchangeAPIRequest.exchangeAPIRequest(conversaoEscolhida.moedaOrigem, conversaoEscolhida.moedaDestino, quantidade);
+                System.out.println("O valor de " + quantidade + "[" + conversaoEscolhida.moedaOrigem + "] equivale a " + exchangeRecord.getConversion_result() + "[" + conversaoEscolhida.moedaDestino + "]");
+
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+
+            }
+
+
+            System.out.println("Deseja converter outra moeda ou quantia? (S/N): ");
+            sair = scanner.next();
+            if(sair.equalsIgnoreCase("n")){
+                System.out.println("Saindo...");
+            }
+        }
+
+
+
+    }
+}
